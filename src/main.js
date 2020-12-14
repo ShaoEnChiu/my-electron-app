@@ -1,5 +1,5 @@
 const { app, BrowserWindow } = require('electron');
-const path = require('path');
+const { ipcMain } = require('electron');
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -60,3 +60,13 @@ app.on('activate', () => {
 const sendMSGToRender = (win, eventType, msg) => {
   win.webContents.send(eventType, msg);
 };
+
+//example 2: receive message from render process (async)
+//without return
+ipcMain.on('IPCFromFrontend', (event, data) => {
+  console.log(data);
+});
+//with return
+ipcMain.handle('IPCFromFrontendPromise', (event, data) => {
+  return { msg: 'sent from backend' };
+});

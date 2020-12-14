@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-
+require('@babel/polyfill');
 //ipc
 const { ipcRenderer } = require('electron');
 
@@ -32,11 +32,24 @@ const App = () => {
     };
   });
 
+  //example 2: send message to backend through IPC
+  const handleClick = async () => {
+    //async and without receiving return data
+    ipcRenderer.send('IPCFromFrontend', { msg: 'hello electron' });
+
+    //async and receiving return data
+    const data = await ipcRenderer.invoke('IPCFromFrontendPromise', {
+      msg: 'hello electron',
+    });
+    console.log('receive data from backend', data);
+  };
   const FormRow = () => {
     return (
       <React.Fragment>
         <Grid item xs={4}>
-          <Paper className={classes.paper}>item</Paper>
+          <Paper className={classes.paper} onClick={handleClick}>
+            item
+          </Paper>
         </Grid>
         <Grid item xs={4}>
           <Paper className={classes.paper}>item</Paper>
