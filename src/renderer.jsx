@@ -30,7 +30,7 @@ const App = () => {
     return () => {
       ipcRenderer.removeAllListeners();
     };
-  });
+  }, []);
 
   //example 2: send message to backend through IPC
   const handleClick = async () => {

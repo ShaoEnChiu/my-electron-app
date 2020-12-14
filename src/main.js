@@ -58,7 +58,9 @@ app.on('activate', () => {
 
 //example 1: send message to render process
 const sendMSGToRender = (win, eventType, msg) => {
-  win.webContents.send(eventType, msg);
+  win.webContents.on('did-finish-load', () => {
+    win.webContents.send(eventType, msg);  
+  });
 };
 
 //example 2: receive message from render process (async)
